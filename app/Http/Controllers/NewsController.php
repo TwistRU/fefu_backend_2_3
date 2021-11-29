@@ -10,25 +10,25 @@ class NewsController extends Controller
     public function getList()
     {
         $news = News::query()
-            ->Where([
+            ->where([
                 ['is_published', true],
                 ['published_at', '<=', 'NOW()']
             ])
-            ->OrderByDesc('published_at')
-            ->OrderByDesc('id')
-            ->Paginate(5);
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->paginate(5);
         return view('news_list', ['news' => $news]);
     }
 
     public function getDetails(string $slug)
     {
         $news_item = News::query()
-            ->Where([
+            ->where([
                 ['slug', $slug],
                 ['is_published', true],
                 ['published_at', '<=', 'NOW()']
             ])
-            ->First();
+            ->first();
         if ($news_item === null) {
             abort(404);
         }
