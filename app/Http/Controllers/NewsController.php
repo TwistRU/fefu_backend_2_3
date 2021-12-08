@@ -9,6 +9,7 @@ class NewsController extends Controller
 {
     public function getList()
     {
+
         $news = News::query()
             ->where([
                 ['is_published', true],
