@@ -24,53 +24,55 @@
     </style>
 </head>
 <body class="antialiased">
-    <h2>Отправить обращение</h2>
-    @if ($success)
-        <p>Спасибо за Ваше мнение!</p>
-    @endif
-    <form method="POST" action="{{route('appeal')}}">
-        @csrf
-        <div>
-            <label>Имя</label>
-            <input class="bordered" name="name" type="text" value="{{request()->isMethod('POST') ? old('name') : ""}}" maxlength="20" size="20"/>
-            @if (isset($errors['name']))
-                <p>{{$errors['name']}}</p>
-            @endif
-            @if (isset($errors['nameSize']))
-                <p>{{$errors['nameSize']}}</p>
-            @endif
-        </div>
-        <div>
-            <label>Номер</label>
-            <input class="bordered" name="phone" type="tel" value="{{request()->isMethod('POST') ? old('phone') : ""}}" maxlength="11" size="11"/>
-            @if (isset($errors['phone']))
-                <p>{{$errors['phone']}}</p>
-            @endif
-            @if (isset($errors['phoneSize']))
-                <p>{{$errors['phoneSize']}}</p>
-            @endif
-        </div>
-        <div>
-            <label>Email</label>
-            <input class="bordered" name="email" type="email" value=""{{request()->isMethod('POST') ? old('email') : ""}}""/>
-            @if (isset($errors['emailSize']))
-                <p>{{$errors['emailSize']}}</p>
-            @endif
-            @if (isset($errors['contacts']))
-                <p>{{$errors['contacts']}}</p>
-            @endif
-        </div>
-        <div>
-            <label>Сообщение</label>
-            <textarea class="bordered" name="message">{{request()->isMethod('POST') ? old('message') : ''}}</textarea>
-            @if (isset($errors['message']))
-                <p>{{$errors['message']}}</p>
-            @endif
-            @if (isset($errors['messageSize']))
-                <p>{{$errors['messageSize']}}</p>
-            @endif
-        </div>
-        <input type="submit"/>
-    </form>
+<h2>Отправить обращение</h2>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form method="POST" action="{{route('appeal')}}">
+    @csrf
+    <div>
+        <label>Имя</label>
+        <input class="bordered" name="name" type="text" value="{{old('name')}}"/>
+    </div>
+    <div>
+        <label>Фамилия</label>
+        <input class="bordered" name="surname" type="text" value="{{old('surname')}}"/>
+    </div>
+    <div>
+        <label>Отчество(Если имеется)</label>
+        <input class="bordered" name="patronymic" type="text" value="{{old('patronymic')}}"/>
+    </div>
+    <div>
+        <label>Возраст</label>
+        <input class="bordered" name="age" type="number" value="{{old('age')}}"/>
+    </div>
+    <div>
+        <label>Пол</label>
+        <select name="gender">
+            <option value="0" {{ old('gender') === 0 ? 'selected="selected"' : ''}}>Male</option>
+            <option value="1" {{ old('gender') === 1 ? 'selected="selected"' : ''}}>Female</option>
+        </select>
+
+    </div>
+    <div>
+        <label>Номер телефона</label>
+        <input name="phone" class="bordered" type="text" value="{{old('phone')}}"/>
+    </div>
+    <div>
+        <label>Email</label>
+        <input class="bordered" name="email" type="text" value="{{old('email')}}"/>
+    </div>
+    <div>
+        <label>Сообщение</label>
+        <textarea class="bordered" name="message">{{old('message')}}</textarea>
+    </div>
+    <input type="submit"/>
+</form>
 </body>
 </html>
