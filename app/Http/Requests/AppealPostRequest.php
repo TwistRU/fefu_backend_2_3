@@ -32,7 +32,7 @@ class AppealPostRequest extends FormRequest
             'age' => ['required', 'integer', 'between:14, 123'],
             'gender' => ['required', Rule::in([Gender::MALE, Gender::FEMALE])],
             'message' => ['required', 'string', 'max:100'],
-            'phone' => ['nullable', 'required_without:email', 'string', 'regex:/^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/'],
+            'phone' => ['nullable', 'required_without:email', 'string', 'regex:/^((\+7)|7|8){1} \(\d{3}\) \d{2}-\d{2}-\d{3}$/'],
             'email' => ['nullable', 'required_without:phone', 'string', 'max:100', 'regex:/^[\w\.-]+@\w+\.\w+\b$/']
         ];
     }
