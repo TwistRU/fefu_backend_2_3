@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AppealPostRequest;
 use App\Models\Appeal;
+use App\Sanitizers\PhoneSanitizer;
 use Illuminate\Http\Request;
 
 class AppealController extends Controller
@@ -15,49 +17,20 @@ class AppealController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $errors = [];
-        $success = $request->session()->get('success', false);
-
         if ($request->isMethod('POST')) {
-            $name = $request->name;
-            $phone = $request->phone;
-            $email = $request->email;
-            $message = $request->message;
-
-            if ($name === null || $name === "") {
-                $errors['name'] = "Поле \"Имя\" пустое";
-            }
-            if ($message === null || $message === "") {
-                $errors['message'] = "Поле \"Сообщение\" пустое";
-            }
-            if (($phone === null || $phone === "") && ($email === null || $email === "")) {
-                $errors['contacts'] = "Заполните одно из полей: Номер, Имя";
-            }
-            if (strlen($name) > 20) {
-                $errors['nameSize'] = "Длина имени не должна превышать 20 cимволов";
-            }
-            if (strlen($phone) > 11) {
-                $errors['phoneSize'] = "Длина номера не должна превышать 11 символов";
-            }
-            if (strlen($email) > 100) {
-                $errors['emailSize'] = "Длина эл-почты не должна превышать 100 символов";
-            }
-            if (strlen($message) > 100) {
-                $errors['messageSize'] = "Длина сообщения не должны превышать 100 символов";
-            }
-            if (count($errors) > 0) {
-                $request->flash();
-            } else {
-                $appeal = new Appeal();
-                $appeal->name = $name;
-                $appeal->phone = $phone;
-                $appeal->email = $email;
-                $appeal->message = $message;
-                $appeal->save();
-                $success = true;
-                return redirect()->route('appeal')->with('success', $success);
-            }
+            $validated = $request->validate(AppealPostRequest::rules());
+            $appeal = new Appeal();
+            $appeal->name = $validated['name'];
+            $appeal->surname = $validated['surname'];
+            $appeal->patronymic = $validated['patronymic'];
+            $appeal->age = $validated['age'];
+            $appeal->gender = $validated['gender'];
+            $appeal->phone = PhoneSanitizer::sanitize($validated['phone']);
+            $appeal->email = $validated['email'];
+            $appeal->message = $validated['message'];
+            $appeal->save();
+            return redirect()->route('appeal');
         }
-        return view('appeal', ['errors' => $errors, 'success' => $success]);
+        return view('appeal');
     }
 }
