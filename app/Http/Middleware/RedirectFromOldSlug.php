@@ -26,6 +26,7 @@ class RedirectFromOldSlug
         while ($redirect !== null) {
             $slug = $redirect->new_slug;
             $redirect = Redirect::query()
+                ->where('old_slug', $slug)
                 ->where('created_at', '>', $redirect->created_at)
                 ->orderByDesc('created_at')
                 ->orderByDesc('id')
