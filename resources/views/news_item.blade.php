@@ -18,11 +18,12 @@
             font-family: 'Nunito', sans-serif;
         }
     </style>
+    @includeWhen(session('suggest'), 'components.suggest_appeal')
 </head>
 <body>
-<a href="{{route('news_list')}}">Новости</a>
-<h1>{{$news_item->title}}</h1>
-<p>{{$news_item->published_at}}</p>
-<p>{{$news_item->text}}</p>
+    <a href="{{route('news_list')}}">Новости</a>
+    <h1>{{$news_item->title}}</h1>
+    <p>{{$news_item->published_at}}</p>
+    <p>{{$news_item->text}}</p>
 </body>
 </html>

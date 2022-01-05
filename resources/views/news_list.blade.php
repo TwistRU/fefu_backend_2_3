@@ -18,6 +18,7 @@
             font-family: 'Nunito', sans-serif;
         }
     </style>
+    @includeWhen(session('suggest'), 'components.suggest_appeal')
 </head>
 <body>
 <h1>Новости</h1>
