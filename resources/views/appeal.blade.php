@@ -73,6 +73,10 @@
         <textarea class="bordered" name="message">{{old('message')}}</textarea>
     </div>
     <input type="submit"/>
+    @if ($suggest_shown)
+        <p class="message">Спасибо за ваш отзыв!</p>
+        <a href="{{ url()->previous() }}" class="link">Вернуться на прежнюю страницу</a>
+    @endif
 </form>
 </body>
 </html>
