@@ -22,6 +22,7 @@
             border: 1px solid black;
         }
     </style>
+    @include('layouts.app')
 </head>
 <body class="antialiased">
 <h2>Отправить обращение</h2>

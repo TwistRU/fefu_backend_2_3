@@ -19,6 +19,7 @@
         }
     </style>
     @includeWhen(session('suggest'), 'components.suggest_appeal')
+    @include('layouts.app')
 </head>
 <body>
 <h1>Новости</h1>
